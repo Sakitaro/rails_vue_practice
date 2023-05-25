@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import TopPage from '@/views/TopPage'
 import SamplePage from '@/views/SamplePage'
 import PracticePage from '@/views/PracticePage'
+import OldVueToDo from '@/views/OldVueToDo'
 
 Vue.use(VueRouter)
 
@@ -22,6 +23,11 @@ const routes = [
     name: 'PracticePage',
     component: PracticePage
   },
+  {
+    path: '/oldtodo',
+    name: 'OldVueToDo',
+    component: OldVueToDo
+  }
 ]
 
 const router = new VueRouter({
