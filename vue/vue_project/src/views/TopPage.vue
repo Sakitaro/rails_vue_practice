@@ -8,7 +8,7 @@
       <router-link :to="{ name: 'PracticePage' }">練習用</router-link>
     </div>
     <div>
-      <router-link :to="{ name: 'OldVueHome'}">旧Vue課題</router-link>
+      <router-link :to="{ name: 'OldVueToDo'}">旧Vue課題</router-link>
     </div>
   </div>
 </template>

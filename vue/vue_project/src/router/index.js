@@ -3,9 +3,7 @@ import VueRouter from 'vue-router'
 import TopPage from '@/views/TopPage'
 import SamplePage from '@/views/SamplePage'
 import PracticePage from '@/views/PracticePage'
-import OldVueHomePage from '@/views/OldVueHomePage'
-import OldVueIndexPage from '@/views/OldVueIndexPage'
-import OldVueNewPage from '@/views/OldVueNewPage'
+import OldVueToDo from '@/views/OldVueToDo'
 
 Vue.use(VueRouter)
 
@@ -27,18 +25,8 @@ const routes = [
   },
   {
     path: '/oldtodo',
-    name: 'OldVueHome',
-    component: OldVueHomePage
-  },
-  {
-    path: '/oldtodo/index',
-    name: 'OldVueIndex',
-    component: OldVueIndexPage
-  },
-  {
-    path: '/oldtodo/index/new',
-    name: 'OldVueNew',
-    component: OldVueNewPage
+    name: 'OldVueToDo',
+    component: OldVueToDo
   }
 ]
 
