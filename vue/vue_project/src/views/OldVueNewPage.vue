@@ -23,14 +23,11 @@
       };
     },
     methods: {
-        addTodo() {
+        async addTodo() {
             if (this.newTodo.trim() !== '') {
-                this.$store.dispatch('addTodo', this.newTodo).then(() => {
-                this.newTodo = '';
-                this.$store.dispatch('loadTodos').then(() => {
-                    this.$router.push('/oldtodo/index');
-                });
-                });
+            await this.$store.dispatch('addTodo', this.newTodo);
+            this.newTodo = '';
+            this.$router.push('/oldtodo/index');
             }
         },
     },

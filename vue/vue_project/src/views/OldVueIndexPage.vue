@@ -12,19 +12,19 @@
   import Navbar from '@/components/Navbar.vue';
   
   export default {
-    name: 'OldVueIndex',
-    components: {
-      Navbar,
+  name: 'OldVueIndex',
+  components: {
+    Navbar,
+  },
+  computed: {
+    allTodos() {
+      return this.$store.getters.allTodos;
     },
-    created() {
-      this.$store.dispatch('loadTodos');
-    },
-    computed: {
-      allTodos() {
-        return this.$store.getters.allTodos;
-      },
-    },
-  };
+  },
+  created() {
+    this.$store.dispatch('loadTodos');
+  },
+};
   </script>
   
   <style lang="scss" scoped>

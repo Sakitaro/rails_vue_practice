@@ -29,18 +29,35 @@ export default new Vuex.Store({
       return sampleItem;
     },
     // 旧vue課題
-    async loadTodos({ commit }) {
-      const res = await api.get('todos');
-      const todos = res.data.todos;
-      commit('setTodos', { todos });
-      return todos;
+    async loadTodos({ commit, state }) {
+      if (state.todos.length === 0) {
+        const res = await fetch("https://jsonplaceholder.typicode.com/todos");
+        const todos = await res.json();
+        commit('setTodos', { todos });
+      }
+      return state.todos;
     },
+    
     async addTodo({ commit }, newTodo) {
-      const res = await api.post('todos', { todo: { title: newTodo }});
-      const todo = res.data.todo;
-      commit('addTodo', { todo });
-      return todo;
-    },
+      const response = await fetch('https://jsonplaceholder.typicode.com/todos', {
+          method: 'POST',
+          body: JSON.stringify({
+              title: newTodo,
+              completed: false,
+          }),
+          headers: {
+              'Content-type': 'application/json; charset=UTF-8',
+          },
+      });
+  
+      if (response.ok) {
+          const todo = await response.json();
+          console.log("POST request result:", todo);
+          commit('addTodo', { todo });
+          return todo;
+      }
+  }
+  
     
   },
   mutations: {
@@ -55,7 +72,7 @@ export default new Vuex.Store({
       state.todos = todos;
     },
     addTodo(state, { todo }) {
-      state.todos.push(todo);
+      state.todos.unshift(todo);
     },
   },
   modules: {}
