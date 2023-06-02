@@ -1,7 +1,7 @@
 <template>
     <div class="New">
       <navbar></navbar> 
-      <h1 class="title">New</h1>
+      <h1>New</h1>
       <div>
         <input v-model="newTodo" type="text" placeholder="Enter new task">
         <button @click="addTodo">Add</button>
@@ -35,8 +35,8 @@
   </script>
   
   <style lang="scss" scoped>
-  .title {
-    margin-left: 40px;
+  .New {
+    padding: 10px;
   }
   </style>
   

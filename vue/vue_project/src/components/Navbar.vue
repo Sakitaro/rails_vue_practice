@@ -1,28 +1,27 @@
 <template>
-    <ul class="links">
-      <li>
+    <div class="links">
+      <div>
         <router-link :to="{ name: 'OldVueHome' }">Home</router-link>
-      </li>
-      <li>
+      </div>
+      <div>
         <router-link :to="{ name: 'OldVueIndex' }">Index</router-link>
-      </li>
-      <li>
+      </div>
+      <div>
         <router-link :to="{ name: 'OldVueNew'}">New</router-link>
-      </li>
-      <li>
+      </div>
+      <div>
         <router-link :to="{ name: 'TopPage'}">Top Page</router-link>
-      </li>
-    </ul>
+      </div>
+    </div>
   </template>
   
   <style lang="scss" scoped>
-  .links {
+.links {
     display: flex;
-    list-style: none;
-  }
+}
   
-  .links li {
+.links div {
     margin-right: 10px;
-  }
+}
   </style>
   

@@ -17,8 +17,8 @@ export default {
 </script>
   
   <style lang="scss" scoped>
-  .title {
-    margin-left: 40px;
+  .Home {
+    padding: 10px;
   }
   </style>
   
