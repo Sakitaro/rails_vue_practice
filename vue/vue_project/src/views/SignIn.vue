@@ -6,6 +6,9 @@
         <input v-model="credentials.password" type="password" placeholder="Password">
         <button type="submit">Login</button>
         <p v-if="userError">{{ userError }}</p>
+        <div v-if="$store.state.authMessage" class="message">
+          {{ $store.state.authMessage }}
+        </div>
       </form>
       <div>
         <router-link :to="{ name: 'RailsVue'}">return</router-link>

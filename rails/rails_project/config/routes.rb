@@ -18,6 +18,7 @@ Rails.application.routes.draw do
     # タスク系
     get '/tasks', to: 'tasks#index'
     post '/tasks', to:  'tasks#create'
+    put '/tasks/:id',to: 'tasks#update'
     
     get '*path', to: 'application#not_found'
   end

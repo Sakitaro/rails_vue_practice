@@ -1,5 +1,6 @@
 <template>
     <div class="task-card">
+      <input type="checkbox" :checked="task.completed" @change="toggleCompleted">
       <div class="task-card-text">{{ task.content }}</div>
     </div>
   </template>
@@ -12,9 +13,14 @@
     props: {
       task: {
         type: Object,
-        default: () => {},
+        required: true,
       },
     },
+    methods: {
+        toggleCompleted() {
+            this.$emit('toggle-completed', this.task);
+        }
+    }
   }
   </script>
   

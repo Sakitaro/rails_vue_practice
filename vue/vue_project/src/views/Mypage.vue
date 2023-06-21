@@ -11,6 +11,7 @@
           v-for="(task, index) in tasks"
           :key="index"
           :task="task"
+          @toggle-completed="toggleCompleted"
         />
       </div>
     </div>
@@ -46,6 +47,9 @@
       },
       async signOut() {
         this.$store.dispatch('signOut');
+      },
+      async toggleCompleted(task) {
+        await this.$store.dispatch('toggleTaskCompleted', task);
       }
     }
   }
@@ -58,7 +62,6 @@
     align-items: center;
     gap: 36px;
     min-height: 100vh;
-    background-color: #efe;
     padding: 36px;
     box-sizing: border-box;
   

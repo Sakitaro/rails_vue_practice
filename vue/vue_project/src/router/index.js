@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import store from '@/store'
 import TopPage from '@/views/TopPage'
 import SamplePage from '@/views/SamplePage'
 import PracticePage from '@/views/PracticePage'
@@ -12,6 +13,16 @@ import Mypage from '@/views/Mypage'
 import RailsVuePage from '@/views/RailsVue'
 
 Vue.use(VueRouter)
+
+// ナビゲーションガード
+const requireAuth = async (to, from, next) => {
+  if (store.getters.isLoggedIn) {
+    next(); // ログインしていればそのまま進む
+  } else {
+    await store.dispatch('setAuthMessage', 'You need to sign in.');
+    next('/signin'); // ログインしていなければログインページへリダイレクト
+  }
+};
 
 const routes = [
   {
@@ -62,8 +73,9 @@ const routes = [
   {
     path: '/mypage',
     name: 'MyPage',
-    component: Mypage
-  }
+    component: Mypage,
+    beforeEnter: requireAuth
+  },
 ]
 
 const router = new VueRouter({

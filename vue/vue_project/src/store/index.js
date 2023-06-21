@@ -11,15 +11,19 @@ export default new Vuex.Store({
     // 旧vue課題
     todos: [],
     // Vue x Rails課題
-    // ユーザーエラーメッセージを保存
-    userError: null,
+    user: null,
     tasks: [],
+    userError: null,
+    authMessage: null,
+    
   },
   getters: {
     sampleItems: state => state.sampleItems,
     // 旧vue課題
     allTodos: state => state.todos,
     // Vue x Rails課題
+    isLoggedIn: state => !!state.user,
+    user: state => state.user,
     userError: state => state.userError,
     tasks: state => state.tasks,
   },
@@ -74,6 +78,7 @@ export default new Vuex.Store({
       const response = await api.post('/sign_in', { session: credentials });
 
       if (response.data.success) {
+        commit('setUser', { user: response.data.session });
         router.push({ name: 'MyPage' });
       } else {
         commit('setUserError', { message: response.data.message });
@@ -100,11 +105,14 @@ export default new Vuex.Store({
       }
     }
   },
+  
   async signOut({ commit }){
     try{
       const response = await api.delete('/sign_out')
 
       if (response.data.success) {
+        commit('setAuthMessage', null);
+        commit('clearUser'); 
         router.push({  name: 'RailsVue' });
       } else {
         commit('setUserError', { message: response.data.message });
@@ -115,6 +123,9 @@ export default new Vuex.Store({
         commit('setUserError', { message: error.response.data.message });
       }
     }
+  },
+  setAuthMessage({ commit }, message) {
+    commit('setAuthMessage', message);
   },
   // タスク系
   async loadTasks({ commit }) {
@@ -129,7 +140,10 @@ export default new Vuex.Store({
     commit('addTask', { task });
     return task
   },
-  
+  async toggleTaskCompleted({ commit }, task) {
+    const response = await api.put(`/tasks/${task.id}`, { completed: !task.completed });
+    commit('updateTask', response.data.task);
+  },
     
   },
   mutations: {
@@ -148,6 +162,15 @@ export default new Vuex.Store({
       state.todos.unshift(todo);
     },
     // Vue x Rails課題
+    setUser(state, { user }) {
+      state.user = user;
+    },
+    clearUser(state) {
+      state.user = null;
+    },
+    setAuthMessage(state, message) { 
+      state.authMessage = message;
+    },
     setUserError(state, { message }) {
       state.userError = message;
     },
@@ -156,6 +179,13 @@ export default new Vuex.Store({
     },
     addTask(state, { task }) {
       state.tasks.unshift(task);
+    },
+    updateTask(state, task) {
+      const index = state.tasks.findIndex(t => t.id === task.id);
+      if (index !== -1) {
+        // spliceメソッドで対象のタスクを更新後のタスクに置き換える
+        state.tasks.splice(index, 1, task);
+      }
     },
   },
   modules: {}
