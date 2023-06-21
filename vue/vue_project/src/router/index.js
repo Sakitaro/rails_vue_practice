@@ -6,6 +6,10 @@ import PracticePage from '@/views/PracticePage'
 import OldVueHomePage from '@/views/OldVueHomePage'
 import OldVueIndexPage from '@/views/OldVueIndexPage'
 import OldVueNewPage from '@/views/OldVueNewPage'
+import SignInPage from '@/views/SignIn'
+import SignUpPage from '@/views/SignUp'
+import Mypage from '@/views/Mypage'
+import RailsVuePage from '@/views/RailsVue'
 
 Vue.use(VueRouter)
 
@@ -39,6 +43,26 @@ const routes = [
     path: '/oldtodo/index/new',
     name: 'OldVueNew',
     component: OldVueNewPage
+  },
+  {
+    path: '/railsvue',
+    name: 'RailsVue',
+    component: RailsVuePage
+  },
+  {
+    path: '/signin',
+    name: 'SignIn',
+    component: SignInPage
+  },
+  {
+    path: '/signup',
+    name: 'SignUp',
+    component: SignUpPage
+  },
+  {
+    path: '/mypage',
+    name: 'MyPage',
+    component: Mypage
   }
 ]
 

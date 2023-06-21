@@ -1,0 +1,22 @@
+class TasksController < ApplicationController
+
+  def index
+    tasks = current_user.tasks
+    render json: { success: true, tasks: tasks }
+  end
+
+  def create
+    task = Task.new(task_params)
+    task.user_id = current_user.id
+
+    if task.save
+      render json: { success: true, task: task }
+    else
+      render json: { success: false, message: task.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
+  def task_params
+    params.require(:task).permit(:content, :completed)
+  end
+end

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import api from '@/api'
+import router from '@/router'
 
 Vue.use(Vuex)
 
@@ -9,13 +10,21 @@ export default new Vuex.Store({
     sampleItems: [],
     // 旧vue課題
     todos: [],
+    // Vue x Rails課題
+    // ユーザーエラーメッセージを保存
+    userError: null,
+    tasks: [],
   },
   getters: {
     sampleItems: state => state.sampleItems,
     // 旧vue課題
     allTodos: state => state.todos,
+    // Vue x Rails課題
+    userError: state => state.userError,
+    tasks: state => state.tasks,
   },
   actions: {
+    // サンプル
     async loadSampleItems({commit}) {
       const res = await api.get('sample_items');
       const sampleItems = res.data.sample_items;
@@ -56,11 +65,75 @@ export default new Vuex.Store({
           commit('addTodo', { todo });
           return todo;
       }
-  }
+  },
+  // Vue x Rails課題
+  // ログイン系
+  async signIn({ commit }, { credentials }) {
+    try {
+      console.log(credentials);
+      const response = await api.post('/sign_in', { session: credentials });
+
+      if (response.data.success) {
+        router.push({ name: 'MyPage' });
+      } else {
+        commit('setUserError', { message: response.data.message });
+      }
+    } catch (error) {
+      console.error('An error occurred:', error);
+    }
+  },
+
+  async signUp({ commit }, { userInfo }) {
+    try {
+      console.log(userInfo);
+      const response = await api.post('/sign_up', { user: userInfo });
+
+      if (response.data.success) {
+        router.push({ name: 'MyPage'});
+      } else {
+        commit('setUserError', { message: response.data.message});
+      }
+    } catch (error) {
+      console.error('An error occurred:', error)
+      if (error.response && error.response.data) {
+        commit('setUserError', { message: error.response.data.message });
+      }
+    }
+  },
+  async signOut({ commit }){
+    try{
+      const response = await api.delete('/sign_out')
+
+      if (response.data.success) {
+        router.push({  name: 'RailsVue' });
+      } else {
+        commit('setUserError', { message: response.data.message });
+      }
+    } catch (error) {
+      console.error('An error occurred: ', error);
+      if (error.response && error.response.data) {
+        commit('setUserError', { message: error.response.data.message });
+      }
+    }
+  },
+  // タスク系
+  async loadTasks({ commit }) {
+    const response = await api.get('/tasks');
+    const tasks = response.data.tasks;
+    commit('setTasks', { tasks });
+    return tasks
+  },
+  async addTask({ commit }, taskData) {
+    const response = await api.post('/tasks', { task: taskData });
+    const task = response.data.task;
+    commit('addTask', { task });
+    return task
+  },
   
     
   },
   mutations: {
+    // サンプル
     setSampleItems(state, { sampleItems }) {
       state.sampleItems = sampleItems;
     },
@@ -73,6 +146,16 @@ export default new Vuex.Store({
     },
     addTodo(state, { todo }) {
       state.todos.unshift(todo);
+    },
+    // Vue x Rails課題
+    setUserError(state, { message }) {
+      state.userError = message;
+    },
+    setTasks(state, { tasks }) {
+      state.tasks = tasks;
+    },
+    addTask(state, { task }) {
+      state.tasks.unshift(task);
     },
   },
   modules: {}

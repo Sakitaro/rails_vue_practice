@@ -10,6 +10,9 @@
     <div>
       <router-link :to="{ name: 'OldVueHome'}">旧Vue課題</router-link>
     </div>
+    <div>
+      <router-link :to="{ name: 'RailsVue'}">Rails x Vue課題</router-link>
+    </div>
   </div>
 </template>
 
