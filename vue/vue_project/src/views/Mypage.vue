@@ -1,6 +1,7 @@
 <template>
     <div class="my-page">
     <div @click="signOut">Sing Out</div>
+    <div class="user-name">Hello, {{ currentUser.name }}</div>
       <div class="title">My Page</div>
       <div class="add-tasks-form">
         <input class="input-add-tasks-content" type="text" v-model="inputText">
@@ -33,6 +34,11 @@
     },
     created() {
       this.loadTasks();
+    },
+    computed: {
+      currentUser() {
+        return this.$store.state.user;
+      },
     },
     methods: {
       async loadTasks() {
