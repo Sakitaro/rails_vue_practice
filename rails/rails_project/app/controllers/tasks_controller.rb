@@ -1,5 +1,10 @@
 class TasksController < ApplicationController
 
+  def all
+    allTasks = Task.all
+    render json: { success: true, allTasks: allTasks }
+  end
+
   def index
     tasks = current_user.tasks
     render json: { success: true, tasks: tasks }

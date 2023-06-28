@@ -1,6 +1,9 @@
 <template>
     <div class="my-page">
     <div @click="signOut">Sing Out</div>
+    <div>
+      <router-link :to="{ name: 'AllTasksPage' }">All User Tasks</router-link>
+    </div>
     <div class="user-name">Hello, {{ currentUser.name }}</div>
       <div class="title">My Page</div>
       <div class="add-tasks-form">

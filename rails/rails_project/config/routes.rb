@@ -17,6 +17,7 @@ Rails.application.routes.draw do
 
     # タスク系
     get '/tasks', to: 'tasks#index'
+    get '/alltasks', to: 'tasks#all'
     post '/tasks', to:  'tasks#create'
     put '/tasks/:id',to: 'tasks#update'
     

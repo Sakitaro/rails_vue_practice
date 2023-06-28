@@ -11,6 +11,8 @@ import SignInPage from '@/views/SignIn'
 import SignUpPage from '@/views/SignUp'
 import Mypage from '@/views/Mypage'
 import RailsVuePage from '@/views/RailsVue'
+import AllTasks from '@/views/AllTasks'
+
 
 Vue.use(VueRouter)
 
@@ -74,6 +76,12 @@ const routes = [
     path: '/mypage',
     name: 'MyPage',
     component: Mypage,
+    beforeEnter: requireAuth
+  },
+  {
+    path: '/alltasks',
+    name: 'AllTasksPage',
+    component: AllTasks,
     beforeEnter: requireAuth
   },
 ]

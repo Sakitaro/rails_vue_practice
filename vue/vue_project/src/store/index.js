@@ -14,6 +14,7 @@ export default new Vuex.Store({
     // Vue x Rails課題
     user: null,
     tasks: [],
+    allTasks: [],
     userError: null,
     authMessage: null,
     
@@ -27,6 +28,7 @@ export default new Vuex.Store({
     user: state => state.user,
     userError: state => state.userError,
     tasks: state => state.tasks,
+    allTasks: state => state.allTasks,
   },
   actions: {
     // サンプル
@@ -114,6 +116,7 @@ export default new Vuex.Store({
       if (response.data.success) {
         commit('setAuthMessage', null);
         commit('clearUser'); 
+        window.sessionStorage.removeItem('user');
         router.push({  name: 'RailsVue' });
       } else {
         commit('setUserError', { message: response.data.message });
@@ -144,6 +147,12 @@ export default new Vuex.Store({
   async toggleTaskCompleted({ commit }, task) {
     const response = await api.put(`/tasks/${task.id}`, { completed: !task.completed });
     commit('updateTask', response.data.task);
+  },
+  async loadAllTasks({ commit }) {
+    const response = await api.get('/alltasks');
+    const allTasks = response.data.allTasks;
+    commit('setAllTasks', { allTasks });
+    return allTasks
   },
     
   },
@@ -178,6 +187,9 @@ export default new Vuex.Store({
     setTasks(state, { tasks }) {
       state.tasks = tasks;
     },
+    setAllTasks(state, { allTasks }) {
+      state.allTasks = allTasks
+    },
     addTask(state, { task }) {
       state.tasks.unshift(task);
     },
@@ -190,7 +202,9 @@ export default new Vuex.Store({
     },
   },
   modules: {},
-  plugins: [createPersistedState({
+  plugins: [createPersistedState(
+  {
    paths: ['user'],
+   storage: window.sessionStorage
   })],
 })
