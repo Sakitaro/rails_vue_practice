@@ -17,7 +17,7 @@ export default new Vuex.Store({
     allTasks: [],
     userError: null,
     authMessage: null,
-    
+    followingUsers: [],
   },
   getters: {
     sampleItems: state => state.sampleItems,
@@ -53,7 +53,6 @@ export default new Vuex.Store({
       }
       return state.todos;
     },
-    
     async addTodo({ commit }, newTodo) {
       const response = await fetch('https://jsonplaceholder.typicode.com/todos', {
           method: 'POST',
@@ -65,7 +64,6 @@ export default new Vuex.Store({
               'Content-type': 'application/json; charset=UTF-8',
           },
       });
-  
       if (response.ok) {
           const todo = await response.json();
           console.log("POST request result:", todo);
@@ -75,19 +73,20 @@ export default new Vuex.Store({
   },
   // Vue x Rails課題
   // ログイン系
-  async signIn({ commit }, { credentials }) {
+  async signIn({ commit, dispatch }, { credentials }) {
     try {
       console.log(credentials);
       const response = await api.post('/sign_in', { session: credentials });
 
       if (response.data.success) {
         commit('setUser', { user: response.data.session });
+        await dispatch('loadFollowingUsers')
         router.push({ name: 'MyPage' });
       } else {
         commit('setUserError', { message: response.data.message });
       }
     } catch (error) {
-      console.error('An error occurred:', error);
+      console.error(error);
     }
   },
 
@@ -102,27 +101,26 @@ export default new Vuex.Store({
         commit('setUserError', { message: response.data.message});
       }
     } catch (error) {
-      console.error('An error occurred:', error)
+      console.error(error)
       if (error.response && error.response.data) {
         commit('setUserError', { message: error.response.data.message });
       }
     }
   },
-  
   async signOut({ commit }){
     try{
       const response = await api.delete('/sign_out')
 
       if (response.data.success) {
         commit('setAuthMessage', null);
-        commit('clearUser'); 
+        commit('clearUser');
         window.sessionStorage.removeItem('user');
         router.push({  name: 'RailsVue' });
       } else {
         commit('setUserError', { message: response.data.message });
       }
     } catch (error) {
-      console.error('An error occurred: ', error);
+      console.error(error);
       if (error.response && error.response.data) {
         commit('setUserError', { message: error.response.data.message });
       }
@@ -154,7 +152,28 @@ export default new Vuex.Store({
     commit('setAllTasks', { allTasks });
     return allTasks
   },
-    
+  async loadFollowingUsers({ commit }) {
+    const response = await api.get('/following');
+    const following = response.data.followed_user;
+    commit('setFollowingUsers', { following })
+    return following
+  },
+  async followUser({ commit }, userID) {
+    try {
+      const response = await api.post('/follow', { followed_id: userID });
+      commit('followUser', response.data.followed_user);
+    } catch(error) {
+      console.error(error)
+    }
+  },
+  async unfollowUser({ commit }, userID) {
+    try {
+      const response = await api.delete(`/unfollow/${userID}`)
+      commit('unfollowUser', response.data.unfollowed_user)
+    } catch(error) {
+      console.error(error)
+    }
+  },
   },
   mutations: {
     // サンプル
@@ -200,11 +219,24 @@ export default new Vuex.Store({
         state.tasks.splice(index, 1, task);
       }
     },
+    setFollowingUsers(state, { following }) {
+      
+      state.followingUsers = following
+      console.log(JSON.stringify(state.followingUsers, null, 2))
+    },
+    followUser(state, user) {
+      state.followingUsers.push(user)
+    },
+    unfollowUser(state, user) {
+      // ここの表現気になる
+      console.log(user)
+      state.followingUsers = state.followingUsers.filter(u => u.id !== user.id);
+    }
   },
   modules: {},
   plugins: [createPersistedState(
   {
-   paths: ['user'],
+   paths: ['user', 'followingUsers'],
    storage: window.sessionStorage
   })],
 })

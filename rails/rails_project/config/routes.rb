@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-  get 'users/create'
-  get 'user/create'
 
   scope :api do
     get '/get_csrf_token', to: 'csrf_tokens#show'
@@ -20,6 +18,11 @@ Rails.application.routes.draw do
     get '/alltasks', to: 'tasks#all'
     post '/tasks', to:  'tasks#create'
     put '/tasks/:id',to: 'tasks#update'
+
+    # フォロー系
+    get '/following', to: 'follow_relationships#following'
+    post '/follow', to: 'follow_relationships#create'
+    delete '/unfollow/:id', to: 'follow_relationships#destroy'
     
     get '*path', to: 'application#not_found'
   end

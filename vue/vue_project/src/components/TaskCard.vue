@@ -2,9 +2,14 @@
     <div class="task-card">
       <input type="checkbox" :checked="task.completed" @change="toggleCompleted">
       <div class="task-card-text">{{ task.content }}</div>
+      <div v-if="showUserInfo">
+        <div>{{ task.user.name }}</div>
+        <button v-if="isFollowing" @click="unfollowUser">Unfollow</button>
+        <button v-else @click="followUser">Follow</button>
+      </div>
     </div>
   </template>
-  
+
   <script>
   export default {
     name: 'TaskCard',
@@ -16,14 +21,28 @@
         required: true,
       },
     },
+    computed: {
+      isFollowing() {
+        return this.$store.state.followingUsers.some(user => user.id === this.task.user.id);
+      },
+      showUserInfo() {
+        return this.$store.state.user.id !== this.task.user.id;
+      }
+    },
     methods: {
         toggleCompleted() {
-            this.$emit('toggle-completed', this.task);
-        }
+          this.$emit('toggle-completed', this.task);
+        },
+        followUser() {
+          this.$store.dispatch('followUser', this.task.user.id);
+        },
+        unfollowUser() {
+          this.$store.dispatch('unfollowUser', this.task.user.id);
+        },
     }
   }
   </script>
-  
+
   <style lang="scss" scoped>
   .task-card {
     position: relative;
@@ -37,18 +56,17 @@
     border-radius: 8px;
     box-shadow: 2px 2px 4px #bbb;
     cursor: pointer;
-  
+
     // ここの表現気になる
     &-text {
       font-size: 16px;
       font-weight: bold;
       user-select: none;
     }
-  
+
     &:hover {
       right: 4px;
       bottom: 4px;
     }
   }
   </style>
-  

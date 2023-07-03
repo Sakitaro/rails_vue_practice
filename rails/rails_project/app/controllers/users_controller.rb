@@ -2,10 +2,9 @@ class UsersController < ApplicationController
   def create
       p "@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
       p params
-      p "@@@@@@@@@@@@@@@@@@@@@@@@@@@@"  
+      p "@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
       Rails.logger.debug request.body.read
-      p "@@@@@@@@@@@@@@@@@@@@@@@@@@@@" 
-      
+      p "@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
     user = User.new(user_params)
 
     if user.save
