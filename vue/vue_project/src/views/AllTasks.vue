@@ -10,6 +10,7 @@
           :key="index"
           :task="task"
           @toggle-completed="toggleCompleted"
+          :disableCheckbox="true"
         />
       </div>
     </div>
@@ -17,7 +18,7 @@
 
 <script>
   import TaskCard from '@/components/TaskCard'
-  
+
   export default {
     name: 'AllTasksPage',
     components: {
@@ -58,7 +59,7 @@
     min-height: 100vh;
     padding: 36px;
     box-sizing: border-box;
-  
+
     .title {
       font-size: 36px;
       font-weight: bold;

@@ -20,10 +20,10 @@
       </div>
     </div>
   </template>
-  
+
   <script>
   import TaskCard from '@/components/TaskCard'
-  
+
   export default {
     name: 'MyPage',
     components: {
@@ -63,7 +63,7 @@
     }
   }
   </script>
-  
+
   <style lang="scss" scoped>
   .my-page {
     display: flex;
@@ -73,17 +73,17 @@
     min-height: 100vh;
     padding: 36px;
     box-sizing: border-box;
-  
+
     .title {
       font-size: 36px;
       font-weight: bold;
     }
-  
+
     .add-tasks-form {
       display: flex;
       gap: 36px;
       align-items: center;
-  
+
       .input-add-tasks-content {
         height: 36px;
         width: 300px;
@@ -92,7 +92,7 @@
         border: 1px solid #ddd;
         border-radius: 4px;
       }
-  
+
       .add-button {
         height: 40px;
         width: 64px;
@@ -105,13 +105,13 @@
         font-weight: bold;
         cursor: pointer;
         user-select: none;
-  
+
         &:hover {
           background-color: #7cf;
         }
       }
     }
-  
+
     .task-cards {
       display: flex;
       gap: 24px;
@@ -120,4 +120,3 @@
     }
   }
   </style>
-  

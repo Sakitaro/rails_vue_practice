@@ -197,7 +197,7 @@ export default new Vuex.Store({
     clearUser(state) {
       state.user = null;
     },
-    setAuthMessage(state, message) { 
+    setAuthMessage(state, message) {
       state.authMessage = message;
     },
     setUserError(state, { message }) {
@@ -220,7 +220,7 @@ export default new Vuex.Store({
       }
     },
     setFollowingUsers(state, { following }) {
-      
+
       state.followingUsers = following
       console.log(JSON.stringify(state.followingUsers, null, 2))
     },
@@ -228,8 +228,6 @@ export default new Vuex.Store({
       state.followingUsers.push(user)
     },
     unfollowUser(state, user) {
-      // ここの表現気になる
-      console.log(user)
       state.followingUsers = state.followingUsers.filter(u => u.id !== user.id);
     }
   },

@@ -1,6 +1,6 @@
 <template>
     <div class="task-card">
-      <input type="checkbox" :checked="task.completed" @change="toggleCompleted">
+      <input type="checkbox" :checked="task.completed" @change="toggleCompleted" :disabled="disableCheckbox">
       <div class="task-card-text">{{ task.content }}</div>
       <div v-if="showUserInfo">
         <div>{{ task.user.name }}</div>
@@ -13,12 +13,14 @@
   <script>
   export default {
     name: 'TaskCard',
-    components: {},
-    // ここの表現気になる
     props: {
       task: {
         type: Object,
         required: true,
+      },
+      disableCheckbox: {
+        type: Boolean,
+        default: false,
       },
     },
     computed: {
@@ -57,7 +59,6 @@
     box-shadow: 2px 2px 4px #bbb;
     cursor: pointer;
 
-    // ここの表現気になる
     &-text {
       font-size: 16px;
       font-weight: bold;

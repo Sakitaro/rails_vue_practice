@@ -3,7 +3,7 @@
     <h1>Sign Up</h1>
       <form @submit.prevent="onSubmit">
         <input v-model="userInfo.name" type="text" placeholder="Username">
-        <input v-model="userInfo.email" type="text" placeholder="Email">        
+        <input v-model="userInfo.email" type="text" placeholder="Email">
         <input v-model="userInfo.password" type="password" placeholder="Password">
         <input v-model="userInfo.passwordConfirmation" type="password" placeholder="Confirm Password">
         <button type="submit">Register</button>
@@ -14,15 +14,14 @@
       </div>
     </div>
   </template>
-  
+
   <script>
-  import { mapState } from 'vuex';
 
   export default {
     data() {
       return {
         userInfo: {
-          name: '',  
+          name: '',
           email: '',
           password: '',
           passwordConfirmation: '',
@@ -30,8 +29,9 @@
       };
     },
     computed: {
-    // 調べる
-    ...mapState(['userError']) 
+      userError() {
+        return this.$store.getters.userError;
+      }
   },
     methods: {
       onSubmit() {
@@ -45,4 +45,3 @@
     }
   };
   </script>
-  
