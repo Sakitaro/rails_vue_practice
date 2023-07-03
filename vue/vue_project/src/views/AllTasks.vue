@@ -4,9 +4,11 @@
      <div>
       <router-link :to="{ name: 'MyPage' }">MyPage</router-link>
     </div>
+    <button @click="taskFilter = 'all'">Show All</button>
+    <button @click="taskFilter = 'following'">Show Following</button>
      <div class="task-cards">
         <TaskCard
-          v-for="(task, index) in allTasks"
+          v-for="(task, index) in filteredTasks"
           :key="index"
           :task="task"
           @toggle-completed="toggleCompleted"
@@ -27,7 +29,7 @@
     data() {
       return {
         allTasks: [],
-        inputText: '',
+        taskFilter: 'all',
       };
     },
     created() {
@@ -36,6 +38,12 @@
     computed: {
       currentUser() {
         return this.$store.state.user;
+      },
+      filteredTasks() {
+        if (this.taskFilter === 'following') {
+          return this.allTasks.filter(task => this.$store.getters.followingUsers.some(user => user.id === task.user.id));
+        }
+        return this.allTasks;
       },
     },
     methods: {

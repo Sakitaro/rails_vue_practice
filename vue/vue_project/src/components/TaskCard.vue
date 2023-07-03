@@ -29,7 +29,7 @@
       },
       showUserInfo() {
         return this.$store.state.user.id !== this.task.user.id;
-      }
+      },
     },
     methods: {
         toggleCompleted() {

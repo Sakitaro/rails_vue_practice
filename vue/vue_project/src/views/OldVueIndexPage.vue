@@ -1,6 +1,6 @@
 <template>
     <div class="Index">
-      <navbar></navbar> 
+      <navbar></navbar>
       <h1 class="title">Index</h1>
       <div>Search: <input v-model="searchQuery" type="text"></div>
       <div>
@@ -20,10 +20,10 @@
       </ul>
     </div>
 </template>
-  
+
 <script>
   import Navbar from '@/components/Navbar.vue';
-  
+
   export default {
   name: 'OldVueIndex',
   components: {
@@ -62,7 +62,7 @@
   },
 };
 </script>
-  
+
 <style lang="scss" scoped>
 .Index {
     padding: 10px;
@@ -87,4 +87,3 @@ ul {
 }
 
 </style>
-  

@@ -29,6 +29,7 @@ export default new Vuex.Store({
     userError: state => state.userError,
     tasks: state => state.tasks,
     allTasks: state => state.allTasks,
+    followingUsers: state => state.followingUsers,
   },
   actions: {
     // サンプル
