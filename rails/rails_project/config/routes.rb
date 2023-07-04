@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     # Vue x Rails課題
     # ログイン系
     post '/sign_in', to: 'sessions#create'
-    delete 'sign_out', to: 'sessions#destroy'    
+    delete 'sign_out', to: 'sessions#destroy'
 
     post '/sign_up', to: 'users#create'
 
@@ -23,7 +23,11 @@ Rails.application.routes.draw do
     get '/following', to: 'follow_relationships#following'
     post '/follow', to: 'follow_relationships#create'
     delete '/unfollow/:id', to: 'follow_relationships#destroy'
-    
+
+    # いいね系
+    post '/like', to: 'likes#create'
+    delete '/unlike', to: 'likes#destroy'
+
     get '*path', to: 'application#not_found'
   end
 end

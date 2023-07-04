@@ -10,13 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_06_28_023837) do
+ActiveRecord::Schema.define(version: 2023_07_04_040229) do
 
   create_table "follow_relationships", force: :cascade do |t|
     t.integer "follower_id"
     t.integer "followed_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "likes", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "task_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["task_id"], name: "index_likes_on_task_id"
+    t.index ["user_id"], name: "index_likes_on_user_id"
   end
 
   create_table "tasks", force: :cascade do |t|
@@ -36,5 +45,7 @@ ActiveRecord::Schema.define(version: 2023_06_28_023837) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "likes", "tasks"
+  add_foreign_key "likes", "users"
   add_foreign_key "tasks", "users"
 end

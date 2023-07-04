@@ -14,7 +14,7 @@ class FollowRelationshipsController < ApplicationController
             render json: { success: false, errors: follow.errors.full_messages }
         end
     end
-    
+
     def destroy
         if @follow.destroy
             render json: { success: true, unfollowed_user: @follow.followed }
@@ -24,7 +24,6 @@ class FollowRelationshipsController < ApplicationController
     end
 
     private
-
     def set_follow
     		@follow = current_user.active_relationships.find_by(followed_id: params[:id])
         unless @follow

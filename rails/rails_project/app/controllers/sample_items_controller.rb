@@ -8,7 +8,7 @@ class SampleItemsController < ApplicationController
     { text: 'Matcher Inc.' },
   ]
 
-  
+
   def index
     render_success sample_items: ITEMS_DATA
   end
