@@ -18,6 +18,7 @@ export default new Vuex.Store({
     userError: null,
     authMessage: null,
     followingUsers: [],
+    likes: [],
   },
   getters: {
     sampleItems: state => state.sampleItems,
@@ -30,6 +31,7 @@ export default new Vuex.Store({
     tasks: state => state.tasks,
     allTasks: state => state.allTasks,
     followingUsers: state => state.followingUsers,
+    likes: state => state.likes
   },
   actions: {
     // サンプル
@@ -82,6 +84,7 @@ export default new Vuex.Store({
       if (response.data.success) {
         commit('setUser', { user: response.data.session });
         await dispatch('loadFollowingUsers')
+        await dispatch('loadLikes')
         router.push({ name: 'MyPage' });
       } else {
         commit('setUserError', { message: response.data.message });
@@ -175,6 +178,30 @@ export default new Vuex.Store({
       console.error(error)
     }
   },
+  async loadLikes({ commit }){
+    const response = await api.get('/likes')
+    const likes = response.data.likes
+    commit('setLikes', { likes })
+    return likes
+  },
+  async likeTask({ commit }, task) {
+    try {
+      const response = await api.post('/like', { task_id: task.id })
+      commit('likeTask', response.data.like)
+      return response.data.task
+    } catch(error) {
+      console.error(error)
+    }
+  },
+  async unlikeTask({ commit }, task) {
+    try {
+      const response = await api.delete(`/unlike/${task.id}`)
+      commit('unlikeTask', response.data.unlike)
+      return response.data.task
+    } catch(error) {
+      console.error(error)
+    }
+  },
   },
   mutations: {
     // サンプル
@@ -221,21 +248,29 @@ export default new Vuex.Store({
       }
     },
     setFollowingUsers(state, { following }) {
-
       state.followingUsers = following
-      console.log(JSON.stringify(state.followingUsers, null, 2))
     },
     followUser(state, user) {
       state.followingUsers.push(user)
     },
     unfollowUser(state, user) {
       state.followingUsers = state.followingUsers.filter(u => u.id !== user.id);
-    }
+    },
+    setLikes(state, { likes }) {
+      state.likes = likes
+      console.log(JSON.stringify(state.likes, null, 2))
+    },
+    likeTask(state, like) {
+      state.likes.push(like)
+    },
+    unlikeTask(state, unlike) {
+      state.likes = state.likes.filter(like => like.id !== unlike.id)
+    },
   },
   modules: {},
   plugins: [createPersistedState(
   {
-   paths: ['user', 'followingUsers'],
+   paths: ['user', 'followingUsers','likes'],
    storage: window.sessionStorage
   })],
 })

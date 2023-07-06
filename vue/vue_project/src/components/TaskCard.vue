@@ -7,12 +7,22 @@
         <button v-if="isFollowing" @click="unfollowUser">Unfollow</button>
         <button v-else @click="followUser">Follow</button>
       </div>
+      <LikeButton
+      class="like-button"
+      :task="task"
+      @update-task="$emit('update-task', $event)"
+      />
     </div>
   </template>
 
   <script>
+  import LikeButton from './LikeButton.vue';
+
   export default {
     name: 'TaskCard',
+    components: {
+      LikeButton
+    },
     props: {
       task: {
         type: Object,

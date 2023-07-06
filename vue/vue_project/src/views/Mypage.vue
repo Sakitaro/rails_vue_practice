@@ -15,6 +15,7 @@
           v-for="(task, index) in tasks"
           :key="index"
           :task="task"
+          @update-task="updateTask"
           @toggle-completed="toggleCompleted"
         />
       </div>
@@ -59,7 +60,13 @@
       },
       async toggleCompleted(task) {
         await this.$store.dispatch('toggleTaskCompleted', task);
-      }
+      },
+      updateTask(updatedTask) {
+        const index = this.tasks.findIndex(t => t.id === updatedTask.id);
+        if (index > -1) {
+          this.$set(this.tasks, index, updatedTask);
+       }
+      },
     }
   }
   </script>

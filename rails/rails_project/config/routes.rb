@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  # devise_for :users
   scope :api do
     get '/get_csrf_token', to: 'csrf_tokens#show'
 
@@ -25,8 +26,9 @@ Rails.application.routes.draw do
     delete '/unfollow/:id', to: 'follow_relationships#destroy'
 
     # いいね系
+    get '/likes', to: 'likes#index'
     post '/like', to: 'likes#create'
-    delete '/unlike', to: 'likes#destroy'
+    delete '/unlike/:id', to: 'likes#destroy'
 
     get '*path', to: 'application#not_found'
   end

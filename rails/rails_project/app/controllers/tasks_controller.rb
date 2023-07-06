@@ -2,12 +2,12 @@ class TasksController < ApplicationController
 
   def all
     allTasks = Task.all
-    render json: { success: true, allTasks: allTasks.as_json(include: :user) }
+    render json: { success: true, allTasks: allTasks.as_json(include: :user, methods: :likers_count)}
   end
 
   def index
     tasks = current_user.tasks
-    render json: { success: true, tasks: tasks.as_json(include: :user) }
+    render json: { success: true, tasks: tasks.as_json(include: :user, methods: :likers_count) }
   end
 
   def create
@@ -15,7 +15,7 @@ class TasksController < ApplicationController
     task.user_id = current_user.id
 
     if task.save
-      render json: { success: true, task: task.as_json(include: :user) }
+      render json: { success: true, task: task.as_json(include: :user, methods: :likers_count) }
     else
       render json: { success: false, message: task.errors.full_messages }, status: :unprocessable_entity
     end
@@ -25,7 +25,7 @@ class TasksController < ApplicationController
     task = current_user.tasks.find(params[:id])
 
     if task.update(task_params)
-      render json: { success: true, task: task }
+      render json: { success: true, task: task, methods: :likers_count }
     else
       render json: { success: false, message: task.errors.full_messages }, status: :unprocessable_entity
     end
