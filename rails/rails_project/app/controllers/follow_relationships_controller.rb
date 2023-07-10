@@ -2,7 +2,7 @@ class FollowRelationshipsController < ApplicationController
     before_action :set_follow, only: [:destroy]
 
     def following
-        following_users = current_user.active_relationships.map(&:followed)
+        following_users = current_user.following
         render json: { success: true, followed_user: following_users}
     end
 
